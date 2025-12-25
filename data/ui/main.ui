@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.3 -->
+<interface>
+  <!-- interface-name main.ui -->
+  <requires lib="gtk" version="4.18"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwApplicationWindow" id="window">
+    <property name="content">
+      <object class="AdwNavigationSplitView" id="nav_split_view">
+        <property name="content">
+          <object class="AdwNavigationPage">
+            <property name="tag">Content</property>
+            <property name="title">List Icons</property>
+            <child>
+              <object class="AdwToolbarView">
+                <property name="content">
+                  <object class="GtkGridView" id="grid_icon">
+                    <property name="max-columns">10</property>
+                    <property name="min-columns">4</property>
+                  </object>
+                </property>
+                <child type="top">
+                  <object class="AdwHeaderBar">
+                    <property name="title-widget">
+                      <object class="AdwViewSwitcher">
+                        <property name="stack">
+                          <object class="AdwViewStack">
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="child">
+                                  <object class="GtkLabel">
+                                    <property name="label">Empty Page</property>
+                                  </object>
+                                </property>
+                                <property name="icon-name">view-list-bullet-symbolic</property>
+                                <property name="title">Symbol</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwViewStackPage">
+                                <property name="child">
+                                  <object class="GtkLabel">
+                                    <property name="label">Empty Page</property>
+                                  </object>
+                                </property>
+                                <property name="icon-name">folder-open</property>
+                                <property name="name">scalable</property>
+                                <property name="title">Scalable</property>
+                              </object>
+                            </child>
+                          </object>
+                        </property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+        <property name="sidebar">
+          <object class="AdwNavigationPage">
+            <property name="child">
+              <object class="AdwToolbarView">
+                <property name="content">
+                  <object class="GtkListView"/>
+                </property>
+                <child type="top">
+                  <object class="AdwHeaderBar" id="header_opt">
+                    <child type="end">
+                      <object class="GtkMenuButton">
+                        <property name="icon-name">open-menu-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <property name="tag">Category</property>
+            <property name="title">Icon Browser Adw</property>
+          </object>
+        </property>
+      </object>
+    </property>
+    <property name="height-request">480</property>
+    <property name="width-request">720</property>
+  </object>
+</interface>
