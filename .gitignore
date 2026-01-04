@@ -2,3 +2,4 @@
 /vendor
 /builddir
 /build
+/.cargo
