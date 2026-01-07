@@ -4,5 +4,5 @@ version = "0.1.22"
 edition = "2024"
 
 [dependencies]
-gtk = {version= "0.9", package="gtk4", features=["v4_14"]}
-adw = { version = "0.7", package = "libadwaita", features = ["v1_5"]} 
+gtk = {version= "0.10.3", package="gtk4", features=["v4_14"]}
+adw = { version = "0.8.1", package = "libadwaita", features = ["v1_5"]} 

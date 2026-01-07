@@ -24,7 +24,7 @@
                     <property name="title-widget">
                       <object class="AdwViewSwitcher">
                         <property name="stack">
-                          <object class="AdwViewStack">
+                          <object class="AdwViewStack" id="stack_view">
                             <child>
                               <object class="AdwViewStackPage">
                                 <property name="child">
@@ -33,6 +33,7 @@
                                   </object>
                                 </property>
                                 <property name="icon-name">view-list-bullet-symbolic</property>
+                                <property name="name">symbol</property>
                                 <property name="title">Symbol</property>
                               </object>
                             </child>
@@ -63,7 +64,7 @@
             <property name="child">
               <object class="AdwToolbarView">
                 <property name="content">
-                  <object class="GtkListView"/>
+                  <object class="GtkListView" id="list_folder_icon"/>
                 </property>
                 <child type="top">
                   <object class="AdwHeaderBar" id="header_opt">
