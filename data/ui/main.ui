@@ -14,9 +14,13 @@
             <child>
               <object class="AdwToolbarView">
                 <property name="content">
-                  <object class="GtkGridView" id="grid_icon">
-                    <property name="max-columns">10</property>
-                    <property name="min-columns">4</property>
+                  <object class="GtkScrolledWindow">
+                    <child>
+                      <object class="GtkGridView" id="grid_icon">
+                        <property name="max-columns">10</property>
+                        <property name="min-columns">4</property>
+                      </object>
+                    </child>
                   </object>
                 </property>
                 <child type="top">
