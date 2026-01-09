@@ -64,7 +64,6 @@ impl LoadPath {
                     .selected_item()
                     .and_downcast::<PathModel>()
                     .unwrap();
-                println!("category select {}", item.name());
                 load_icon.borrow_mut().set_data_source(item.path());
             }
 
@@ -74,8 +73,6 @@ impl LoadPath {
                     let pos = sel.selected();
                     if pos != gtk::INVALID_LIST_POSITION {
                         let item = sel.selected_item().and_downcast::<PathModel>().unwrap();
-
-                        println!("Seleccionado: {}", item.name());
                         load_ic.borrow_mut().set_data_source(item.path());
                     }
                 }

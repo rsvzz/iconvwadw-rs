@@ -1,12 +1,15 @@
 mod model;
-use model::{LoadPath, PathIconAdw, PathModel};
+use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
 use adw::{Application, ApplicationWindow, ViewStack, ViewStackPage, prelude::*};
-use gtk::{Align, Box, Builder, GridView, Image, Label, ListView, Orientation, SignalListItemFactory};
+use gtk::{
+    Align, Box, Builder, GridView, Label, ListView, Orientation, Picture, SignalListItemFactory,
+    Image,
+};
+use gtk::gdk::{Texture};
 
-use std::{env};
+use std::env;
 
-use crate::model::IconItem;
 fn main() {
     let app = Application::builder()
         .application_id("io.github.rsvzz.iconvwadw")
@@ -35,25 +38,31 @@ fn main() {
 
             let factory_grid = SignalListItemFactory::new();
 
-             factory_grid.connect_setup(move |_, obj| {
+            factory_grid.connect_setup(move |_, obj| {
                 let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
-                let image = Image::builder()
-                            .width_request(60)
-                            .height_request(60)
-                            .build();
+                let image = Picture::builder()
+                    .width_request(60)
+                    .height_request(60)
+                    .margin_top(5)
+                    .build();
 
                 list_item.set_child(Some(&image));
-                
-             });
+            });
 
-              factory_grid.connect_bind(move |_, obj| {
-                let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
-                let image :Image = list_item.child().and_downcast::<Image>().unwrap();
-                let item = list_item.item().and_downcast::<IconItem>().unwrap();
-                image.set_from_file(Some(&item.path()));
-              });
+            let load_svg = LoadSvg::new(60, 60);
 
-              view_grid.set_factory(Some(&factory_grid));
+            factory_grid.connect_bind({
+                let svg = load_svg.clone();
+                move |_, obj| {
+                    let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
+                    let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
+                    let item = list_item.item().and_downcast::<IconItem>().unwrap();
+                    let texture: Texture = svg.get_texture_for_png(item.path().to_string());
+                    image.set_paintable(Some(&texture));
+                }
+            });
+
+            view_grid.set_factory(Some(&factory_grid));
             //read path
             let path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
             let path_scalable = String::from("/usr/share/icons/Adwaita/scalable");

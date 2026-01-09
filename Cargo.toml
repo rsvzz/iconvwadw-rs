@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 gtk = {version= "0.10.3", package="gtk4", features=["v4_14"]}
 adw = { version = "0.8.1", package = "libadwaita", features = ["v1_5"]} 
+rsvg = {version = "2.61.3", package = "librsvg"}
