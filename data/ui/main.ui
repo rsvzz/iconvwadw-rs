@@ -87,7 +87,7 @@
         </property>
       </object>
     </property>
-    <property name="height-request">480</property>
-    <property name="width-request">720</property>
+    <property name="height-request">720</property>
+    <property name="width-request">850</property>
   </object>
 </interface>

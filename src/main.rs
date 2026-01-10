@@ -1,13 +1,16 @@
 mod model;
-use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel,};
+use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
-use adw::{Application, ApplicationWindow, ViewStack, ViewStackPage, AboutDialog, prelude::*};
-use gtk::{
-    Align, Box, Builder, GridView, Label, ListView, Orientation, Picture, SignalListItemFactory,
-    Image, MenuButton,
+use adw::{
+    AboutDialog, Application, ApplicationWindow, ViewStack, ViewStackPage, Window, prelude::*,
 };
-use gtk::gdk::{Texture};
+use gtk::gdk::{Display, Texture};
 use gtk::gio;
+use gtk::glib::Propagation;
+use gtk::{
+    Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
+    Orientation, Picture, SignalListItemFactory,
+};
 
 use std::env;
 
@@ -21,11 +24,20 @@ fn main() {
         let dir = path.clone();
         move |app| {
             let r_ui = "../../data/ui/main.ui";
+            let view_ui = "../../data/ui/view_data.ui";
 
             let build = Builder::from_file(
                 dir.parent()
                     .unwrap()
                     .join(r_ui)
+                    .to_string_lossy()
+                    .to_string(),
+            );
+
+            let build_view = Builder::from_file(
+                dir.parent()
+                    .unwrap()
+                    .join(view_ui)
                     .to_string_lossy()
                     .to_string(),
             );
@@ -51,15 +63,60 @@ fn main() {
             });
 
             let load_svg = LoadSvg::new(60, 60);
+            let win_icon: Window = build_view.object("win_icon_view").unwrap();
+            win_icon.set_transient_for(Some(&window));
+            win_icon.set_modal(true);
+            win_icon.set_resizable(false);
 
+            let btn_copy: Button = build_view.object("btn_copy").unwrap();
+            let lbl_icon: Label = build_view.object("lbl_icon_name").unwrap();
+            btn_copy.connect_clicked({
+                let lbl_icon = lbl_icon.clone();
+                let win_ic = win_icon.clone();
+                move |_| {
+                    if let Some(display) = Display::default(){
+                        let clipboard = display.clipboard();
+                        clipboard.set_text(&lbl_icon.label());
+                        win_ic.set_visible(false);
+                    }
+                }
+            });
+
+            win_icon.connect_close_request(|win| {
+                win.set_visible(false);
+                Propagation::Stop
+            });
+            let svg_view = LoadSvg::new(150, 150); //view click
             factory_grid.connect_bind({
                 let svg = load_svg.clone();
+                let build_icon = build_view.clone();
+                let _win_icon = win_icon.clone();
+                let svg_v = svg_view.clone();
                 move |_, obj| {
                     let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
                     let item = list_item.item().and_downcast::<IconItem>().unwrap();
                     let texture: Texture = svg.get_texture_for_png(item.path().to_string());
                     image.set_paintable(Some(&texture));
+                    let gesture = GestureClick::new();
+                    gesture.connect_pressed({
+                        let item_c = item.clone();
+                        let view_win = build_icon.clone();
+                        let icon_win = _win_icon.clone();
+                        let svg_ic = svg_v.clone();
+                        move |_, _, _, _| {
+                            let icon: Picture = view_win.object("pic_icon").unwrap();
+                            let _texture: Texture =
+                                svg_ic.get_texture_for_png(item_c.path().to_string());
+                            icon.set_paintable(Some(&_texture));
+
+                            let lbl_name: Label = view_win.object("lbl_icon_name").unwrap();
+                            lbl_name.set_label(&item_c.name());
+                            icon_win.set_visible(true);
+                            icon_win.present();
+                        }
+                    });
+                    image.add_controller(gesture);
                 }
             });
 
@@ -119,7 +176,7 @@ fn main() {
 
             //add menu
 
-             let menu = gio::Menu::new();
+            let menu = gio::Menu::new();
             menu.append(Some("About"), Some("app.about"));
 
             let about_opt = gio::SimpleAction::new("about", None);
@@ -128,7 +185,6 @@ fn main() {
                 let _win = window.clone();
                 let _dir = dir.clone();
                 move |_, _| {
-                    
                     let about_ui = "../../data/ui/about.ui"; //devmode
 
                     let about_build = Builder::from_file(
@@ -138,7 +194,7 @@ fn main() {
                             .to_string_lossy()
                             .to_string(),
                     );
-                    
+
                     let _dialog: AboutDialog = about_build.object("about_dialog").unwrap();
 
                     _dialog.present(Some(&_win));
