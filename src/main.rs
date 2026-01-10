@@ -1,12 +1,13 @@
 mod model;
-use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
+use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel,};
 
-use adw::{Application, ApplicationWindow, ViewStack, ViewStackPage, prelude::*};
+use adw::{Application, ApplicationWindow, ViewStack, ViewStackPage, AboutDialog, prelude::*};
 use gtk::{
     Align, Box, Builder, GridView, Label, ListView, Orientation, Picture, SignalListItemFactory,
-    Image,
+    Image, MenuButton,
 };
 use gtk::gdk::{Texture};
+use gtk::gio;
 
 use std::env;
 
@@ -115,6 +116,39 @@ fn main() {
                     }
                 }
             });
+
+            //add menu
+
+             let menu = gio::Menu::new();
+            menu.append(Some("About"), Some("app.about"));
+
+            let about_opt = gio::SimpleAction::new("about", None);
+
+            about_opt.connect_activate({
+                let _win = window.clone();
+                let _dir = dir.clone();
+                move |_, _| {
+                    
+                    let about_ui = "../../data/ui/about.ui"; //devmode
+
+                    let about_build = Builder::from_file(
+                        _dir.parent()
+                            .unwrap()
+                            .join(about_ui)
+                            .to_string_lossy()
+                            .to_string(),
+                    );
+                    
+                    let _dialog: AboutDialog = about_build.object("about_dialog").unwrap();
+
+                    _dialog.present(Some(&_win));
+                }
+            });
+
+            app.add_action(&about_opt);
+
+            let button_menu: MenuButton = build.object("menu_option").unwrap();
+            button_menu.set_menu_model(Some(&menu));
 
             list_view.set_factory(Some(&factory));
             window.present();

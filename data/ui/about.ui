@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.3 -->
+<interface>
+  <!-- interface-name about.ui -->
+  <requires lib="libadwaita" version="1.5"/>
+  <object class="AdwAboutDialog" id="about_dialog">
+    <property name="application-icon">io.github.rsvzz.iconvwadw</property>
+    <property name="application-name">icon-browser-adw</property>
+    <property name="copyright"> </property>
+    <property name="designers">@rsvzz</property>
+    <property name="developer-name">© rsvzz 2026</property>
+    <property name="developers">@rsvzz</property>
+    <property name="issue-url">https://github.com/rsvzz/iconvwadw-rs/issues</property>
+    <property name="license-type">lgpl-3-0-only</property>
+    <property name="support-url">https://github.com/rsvzz/csven-rs</property>
+    <property name="version">0.1.23</property>
+    <property name="website">https://github.com/rsvzz/iconvwadw-rs</property>
+  </object>
+</interface>
