@@ -30,13 +30,11 @@ parts:
 
   icon-browser-adw:
     plugin: meson
-    source: https://github.com/rsvzz/iconvwadw-rs.git
-    source-type: git
-    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source: https://github.com/rsvzz/iconvwadw-rs/releases/download/${CRAFT_PROJECT_VERSION}/iconvmadw-rs_all.tar.xz
     meson-parameters:
       - --prefix=/
       - --buildtype=release
-      - --native-file=${SNAPCRAFT_PROJECT_DIR}/native.ini
+      - --native-file=${CRAFT_PROJECT_DIR}/native.ini
     build-environment:
       - C_INCLUDE_PATH: ${SNAPCRAFT_STAGE}/include
       - LIBRARY_PATH: ${SNAPCRAFT_STAGE}/lib/x86_64-linux-gnu
@@ -51,8 +49,8 @@ parts:
       cp -r ${CRAFT_PART_SRC}/.cargo/config.toml ${CRAFT_PART_BUILD}/.cargo
     override-build: |
       snapcraftctl build
-      rm -r ${SNAPCRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
-      cp -v ${SNAPCRAFT_PROJECT_DIR}/data/desktop/io.github.rsvzz.iconvwadw-snap.desktop ${SNAPCRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
+      rm -r ${CRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
+      cp -v ${CRAFT_PROJECT_DIR}/data/desktop/io.github.rsvzz.iconvwadw-snap.desktop ${CRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
 
 slots:
   icon-browser-adw-dbus:

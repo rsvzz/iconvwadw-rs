@@ -1,7 +1,7 @@
-use gtk::cairo::{Context, Format, ImageSurface, Rectangle,};
+use cairo::{Context, Format, ImageSurface, Rectangle,};
 use gtk::gdk::{Texture};
 use rsvg::{Loader, CairoRenderer,};
-use gtk::glib::{Bytes};
+use gtk::glib::{Bytes,};
 #[derive(Clone)]
 pub struct LoadSvg{
     width: i32,
@@ -30,7 +30,7 @@ impl LoadSvg{
         let handle = Loader::new() .read_path(path) .expect("dont load SVG");
         let surface = ImageSurface::create(Format::ARgb32, self.width, self.height) .expect("dont create surface"); 
         let cr = Context::new(&surface).unwrap();
-        CairoRenderer::new(&handle) .render_document(&cr, &Rectangle::new(0.0, 0.0, self.width as f64, self.height as f64)) .expect("Error al renderizar");
+        CairoRenderer::new(&handle).render_document(&cr, &Rectangle::new(0.0, 0.0, self.width as f64, self.height as f64)) .expect("Error al renderizar");
         surface
     }
 }
