@@ -1,0 +1,61 @@
+name: icon-browser-adw
+version: '0.1.23'
+summary: Icon Browser for Adwaita
+description: icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy the icon names for use in your projects.
+base: core24
+confinement: strict
+grade: stable
+license: GPL-3.0-or-later
+compression: lzo
+
+platforms: 
+  amd64:
+  arm64:
+  armhf:
+
+apps:
+  icon-browser-adw:
+    command: bin/iconvwadw
+    desktop: share/applications/io.github.rsvzz.iconvwadw.desktop
+    extensions: [gnome]
+    common-id: io.github.rsvzz.iconvwadw
+    slots: [icon-browser-adw-dbus]
+    plugs:
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+
+parts:
+
+  icon-browser-adw:
+    plugin: meson
+    source: https://github.com/rsvzz/iconvwadw-rs.git
+    source-type: git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    meson-parameters:
+      - --prefix=/
+      - --buildtype=release
+      - --native-file=${SNAPCRAFT_PROJECT_DIR}/native.ini
+    build-environment:
+      - C_INCLUDE_PATH: ${SNAPCRAFT_STAGE}/include
+      - LIBRARY_PATH: ${SNAPCRAFT_STAGE}/lib/x86_64-linux-gnu
+    build-packages:
+      - meson
+      - rustc-1.85
+      - cargo-1.85
+      - librsvg2-dev
+    override-pull: | 
+      snapcraftctl pull 
+      cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
+      cp -r ${CRAFT_PART_SRC}/.cargo/config.toml ${CRAFT_PART_BUILD}/.cargo
+    override-build: |
+      snapcraftctl build
+      rm -r ${SNAPCRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
+      cp -v ${SNAPCRAFT_PROJECT_DIR}/data/desktop/io.github.rsvzz.iconvwadw-snap.desktop ${SNAPCRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
+
+slots:
+  icon-browser-adw-dbus:
+    interface: dbus
+    bus: session
+    name: io.github.rsvzz.iconvwadw

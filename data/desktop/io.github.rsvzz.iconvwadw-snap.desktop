@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=icon-browser-adw
+Comment=Icon Browser for Adwaita
+Exec=iconvwadw
+Icon=${SNAP}/share/icons/hicolor/scalable/apps/io.github.rsvzz.iconvwadw.svg
+Terminal=false
+Type=Application
+Categories=Development;
+StartupNotify=true
