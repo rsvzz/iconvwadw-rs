@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="desktop-application">
+  <id>io.github.rsvzz.iconvwadw</id>
+  <name translate="no">icon-browser-adw</name>
+  <summary>Icon Browser for Adwaita</summary>
+  <description>
+    <p>
+        icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy the icon names for use in your projects.
+    </p>
+  </description>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <launchable type="desktop-id">io.github.rsvzz.iconvwadw.desktop</launchable>
+  
+
+  <developer id="io.github.rsvzz">
+      <name>Ronald Sanchez</name>
+  </developer>
+  <provides>
+    <binary>iconvwadw</binary>
+  </provides>
+
+  <url type="homepage">https://github.com/rsvzz/iconvwadw</url>
+  <url type="bugtracker">https://github.com/rsvzz/iconvwadw.git</url>
+
+  <releases>
+     
+    <release version="0.1.23" date="2026-01-11">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Proyect C++ to Rust</li>
+        </ul>
+      </description>
+    </release>
+
+     <release version="0.1.21" date="2025-12-15">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>path icons valid</li>
+        </ul>
+      </description>
+    </release>
+
+   <release version="0.1.17" date="2025-09-19">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>alphabetical order</li>
+          <li>add menu</li>
+          <li>menu add option about</li>
+        </ul>
+      </description>
+    </release>
+
+ <release version="0.1.14" date="2025-08-23">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>remove GtkGrid</li>
+          <li>added GtkGridView show more items</li>
+        </ul>
+      </description>
+    </release>
+
+
+  <release version="0.1.10" date="2025-08-02">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>remove gtkmm-4.0</li>
+          <li>add Adwaita and gtk4</li>
+        </ul>
+      </description>
+    </release>
+
+   <release version="0.1.7" date="2025-06-10">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>added dark mode</li>
+        </ul>
+      </description>
+    </release>
+
+  <release version="0.1.5" date="2025-05-31">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>In this version I use librsvg for reading files .svg</li>
+          <li>Dialog window rearranged icons</li>
+        </ul>
+      </description>
+    </release>
+
+   <release version="0.1.2" date="2025-05-13">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>In this version only symbol type icons are displayed.</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+ 
+   <screenshots>
+      <screenshot type="default">
+        <caption>Main window Light</caption>
+        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw/4bfefa268c0eb260a51eded1e9718aa1c86cc0b4/data/screenshot/iconvwadw-light.png</image>
+      </screenshot>
+
+       <screenshot>
+        <caption>Main window Dark</caption>
+        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw/4bfefa268c0eb260a51eded1e9718aa1c86cc0b4/data/screenshot/iconvwadw-dark.png</image>
+      </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1" />
+
+</component>

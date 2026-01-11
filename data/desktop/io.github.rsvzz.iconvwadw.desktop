@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=icon-browser-adw
+Comment=Icon Browser for Adwaita
+Exec=iconvwadw
+Icon=io.github.rsvzz.iconvwadw
+Terminal=false
+Type=Application
+Categories=Development;
+StartupNotify=true
