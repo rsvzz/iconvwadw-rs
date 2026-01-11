@@ -1,5 +1,5 @@
 name: icon-browser-adw
-version: '0.1.23'
+version: '0.1.24'
 summary: Icon Browser for Adwaita
 description: icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy the icon names for use in your projects.
 base: core24
@@ -43,6 +43,8 @@ parts:
       - rustc-1.85
       - cargo-1.85
       - librsvg2-dev
+    stage-packages:
+      - adwaita-icon-theme
     override-pull: | 
       snapcraftctl pull 
       cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
