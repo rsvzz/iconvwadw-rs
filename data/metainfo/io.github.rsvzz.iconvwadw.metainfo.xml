@@ -23,8 +23,8 @@
   </provides>
 
   <url type="homepage">https://github.com/rsvzz/iconvwadw-rs</url>
-  <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs.git</url>
-  <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs</url>
+  <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
+  <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
      
     <release version="0.1.24" date="2026-01-11">
