@@ -34,7 +34,7 @@ impl LoadIcon {
                 if dir.is_file() {
                     store.append(&IconItem::new(
                         dir.to_string_lossy().to_string(),
-                        dir.file_name().unwrap().to_string_lossy().to_string(),
+                        dir.file_stem().unwrap().to_string_lossy().to_string(),
                     ));
                 }
             }
