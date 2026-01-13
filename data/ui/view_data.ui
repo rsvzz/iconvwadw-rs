@@ -2,7 +2,7 @@
 <!-- Created with Cambalache 0.96.3 -->
 <interface>
   <!-- interface-name view_data.ui -->
-  <requires lib="gtk" version="4.18"/>
+  <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.2"/>
   <object class="AdwWindow" id="win_icon_view">
     <property name="content">
