@@ -1,7 +1,7 @@
 /debian/tmp/usr/bin/iconvwadw usr/bin/
 /debian/tmp/usr/share/applications/io.github.rsvzz.iconvwadw.desktop usr/share/applications/
-/debian/tmp/usr/share/metainfo/io.github.rsvzz.csven.metainfo.xml usr/share/metainfo/
+/debian/tmp/usr/share/metainfo/io.github.rsvzz.iconvwadw.metainfo.xml usr/share/metainfo/
 /debian/tmp/usr/share/iconvwadw/ui/main.ui usr/share/iconvwadw/ui/
 /debian/tmp/usr/share/iconvwadw/ui/view_data.ui usr/share/iconvwadw/ui/
 /debian/tmp/usr/share/iconvwadw/ui/about.ui usr/share/iconvwadw/ui/
-/debian/tmp/usr/share/iconvwadw/hicolor/scalable/apps/io.github.rsvzz.iconvwadw.svg usr/share/icons/hicolor/scalable/apps/
+/debian/tmp/usr/share/icons/hicolor/scalable/apps/io.github.rsvzz.iconvwadw.svg usr/share/icons/hicolor/scalable/apps/
