@@ -26,7 +26,16 @@
   <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
-     
+    
+    <release version="0.1.25" date="2026-01-13">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Fixed copy icon name without extention working</li>
+        </ul>
+      </description>
+    </release>
+
     <release version="0.1.24" date="2026-01-11">
       <description translate="no">
         <p>Changed:</p>
@@ -109,13 +118,19 @@
    <screenshots>
       <screenshot type="default">
         <caption>Main window Light</caption>
-        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw/4bfefa268c0eb260a51eded1e9718aa1c86cc0b4/data/screenshot/iconvwadw-light.png</image>
+        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v1.png</image>
       </screenshot>
 
        <screenshot>
         <caption>Main window Dark</caption>
-        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw/4bfefa268c0eb260a51eded1e9718aa1c86cc0b4/data/screenshot/iconvwadw-dark.png</image>
+        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/dark_v1.png</image>
       </screenshot>
+
+       <screenshot>
+        <caption>Scalable View</caption>
+        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v2.png</image>
+      </screenshot>
+      
   </screenshots>
 
   <content_rating type="oars-1.1" />
