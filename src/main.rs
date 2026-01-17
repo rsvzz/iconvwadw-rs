@@ -13,6 +13,7 @@ use gtk::{
 };
 
 use std::env;
+use std::path::Path;
 
 fn main() {
     let app = Application::builder()
@@ -77,7 +78,7 @@ fn main() {
                 let lbl_icon = lbl_icon.clone();
                 let win_ic = win_icon.clone();
                 move |_| {
-                    if let Some(display) = Display::default(){
+                    if let Some(display) = Display::default() {
                         let clipboard = display.clipboard();
                         clipboard.set_text(&lbl_icon.label());
                         win_ic.set_visible(false);
@@ -125,8 +126,22 @@ fn main() {
 
             view_grid.set_factory(Some(&factory_grid));
             //read path
-            let path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
-            let path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
+            let mut path_symb = String::from("");
+            let mut path_scalable = String::from("");
+            //exist SNAP
+            match env::var("SNAP") {
+                Ok(snap_path) => {
+                    let symb_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
+                    let scalable_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
+
+                    path_symb = symb_path.display().to_string();
+                    path_scalable = scalable_path.display().to_string();
+                }
+                Err(_) => {
+                    path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
+                    path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
+                }
+            }
 
             let load_view = LoadPath::new(&list_view, path_symb, path_scalable, &view_grid);
             load_view.set_files_path(PathIconAdw::SYMBOL);
