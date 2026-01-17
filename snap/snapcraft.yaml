@@ -1,5 +1,5 @@
 name: icon-browser-adw
-version: '0.1.24'
+version: '0.1.26'
 summary: Icon Browser for Adwaita
 description: icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy the icon names for use in your projects.
 base: core24
@@ -30,7 +30,7 @@ parts:
 
   icon-browser-adw:
     plugin: meson
-    source: .
+    source: https://github.com/rsvzz/iconvwadw-rs/releases/download/${CRAFT_PROJECT_VERSION}/iconvmadw-rs_all.tar.xz
     meson-parameters:
       - --prefix=/
       - --buildtype=release
