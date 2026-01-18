@@ -6,13 +6,13 @@ use adw::{
 };
 use gtk::gdk::{Display, Texture};
 use gtk::gio;
-use gtk::glib::Propagation;
+use gtk::glib::{Propagation};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
 };
 
-use std::env;
+use std::{env, thread};
 
 fn main() {
     let app = Application::builder()
@@ -99,8 +99,29 @@ fn main() {
                     let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
                     let item = list_item.item().and_downcast::<IconItem>().unwrap();
-                    let texture: Texture = svg.get_texture_for_png(item.path().to_string());
-                    image.set_paintable(Some(&texture));
+                    let path_c = item.path().to_string();
+                    let svg_c = svg.clone();
+                    let img = image.clone();
+                    let (tx, rx) = std::sync::mpsc::channel();
+
+                    thread::spawn(move || { 
+                        // Trabajo pesado fuera del hilo principal 
+                        let texture_bytes: cairo::glib::Bytes = svg_c.get_texture_for_png(path_c); 
+                        tx.send(texture_bytes).unwrap(); 
+                    });
+                
+                    gtk::glib::idle_add_local(move || { 
+                        if let Ok(bytes) = rx.try_recv() { 
+                            //glib::Bytes from gtk new version
+                            if let Ok(texture) = Texture::from_bytes(&gtk::glib::Bytes::from_owned(bytes)) { 
+                                img.set_paintable(Some(&texture));
+                             } 
+                            } 
+                            gtk::glib::ControlFlow::Continue
+                        });
+
+                    //let texture: Texture = svg.get_texture_for_png(item.path().to_string());
+                    //image.set_paintable(Some(&texture));
                     let gesture = GestureClick::new();
                     gesture.connect_pressed({
                         let item_c = item.clone();
@@ -109,9 +130,12 @@ fn main() {
                         let svg_ic = svg_v.clone();
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
-                            let _texture: Texture =
-                                svg_ic.get_texture_for_png(item_c.path().to_string());
-                            icon.set_paintable(Some(&_texture));
+                            //glib from cairo old version
+                            let _texture_bytes:cairo::glib::Bytes  = svg_ic.get_texture_for_png(item_c.path().to_string());
+                            
+                            if let Ok(texture) = Texture::from_bytes(&gtk::glib::Bytes::from_owned(_texture_bytes)){
+                                    icon.set_paintable(Some(&texture)); 
+                            }
 
                             let lbl_name: Label = view_win.object("lbl_icon_name").unwrap();
                             lbl_name.set_label(&item_c.name());
