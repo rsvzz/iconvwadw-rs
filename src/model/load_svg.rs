@@ -1,7 +1,5 @@
-use cairo::{Context, Format, ImageSurface, Rectangle,};
-use gtk::gdk::{Texture};
+use cairo::{Context, Format, ImageSurface, Rectangle, glib::Bytes};
 use rsvg::{Loader, CairoRenderer,};
-use gtk::glib::{Bytes,};
 #[derive(Clone)]
 pub struct LoadSvg{
     width: i32,
@@ -17,12 +15,11 @@ impl LoadSvg{
         }
     }
 
-    pub fn get_texture_for_png(&self, path: String) -> Texture{
+    pub fn get_texture_for_png(&self, path: String) -> Bytes{
         let surface =  self.get_render_surface(path);
         let mut buf: Vec<u8> = Vec::new();
         let _ = surface.write_to_png(&mut buf);
-        let bytes = Bytes::from_owned(buf);
-        Texture::from_bytes(&bytes).unwrap()
+        Bytes::from_owned(buf)
     }
 
     fn get_render_surface(&self, path: String) -> ImageSurface{
