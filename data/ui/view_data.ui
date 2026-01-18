@@ -3,7 +3,7 @@
 <interface>
   <!-- interface-name view_data.ui -->
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.2"/>
+  <requires lib="libadwaita" version="1.5"/>
   <object class="AdwWindow" id="win_icon_view">
     <property name="content">
       <object class="AdwToolbarView">

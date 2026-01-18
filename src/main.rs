@@ -150,8 +150,8 @@ fn main() {
 
             view_grid.set_factory(Some(&factory_grid));
             //read path
-            let mut path_symb = String::from("");
-            let mut path_scalable = String::from("");
+            let path_symb : String;
+            let path_scalable: String;
             //exist SNAP
             match env::var("SNAP") {
                 Ok(snap_path) => {

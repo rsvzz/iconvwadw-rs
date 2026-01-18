@@ -3,7 +3,7 @@
 <interface>
   <!-- interface-name main.ui -->
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.7"/>
+  <requires lib="libadwaita" version="1.5"/>
   <object class="AdwApplicationWindow" id="window">
     <property name="content">
       <object class="AdwNavigationSplitView" id="nav_split_view">
