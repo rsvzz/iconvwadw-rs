@@ -12,12 +12,8 @@ use gtk::{
     Orientation, Picture, SignalListItemFactory,
 };
 
-<<<<<<< HEAD
-use std::env;
 use std::path::Path;
-=======
 use std::{env, thread};
->>>>>>> dev
 
 fn main() {
     let app = Application::builder()
