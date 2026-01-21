@@ -25,11 +25,11 @@ fn main() {
     app.connect_activate({
         let dir = path.clone();
         move |app| {
-            let r_ui = "../../data/ui/main.ui"; //devmode
-            let view_ui = "../../data/ui/view_data.ui"; //devmode
+            //let r_ui = "../../data/ui/main.ui"; //devmode
+            //let view_ui = "../../data/ui/view_data.ui"; //devmode
 
-            //let r_ui = "../share/iconvwadw/ui/main.ui"; //release
-            //let view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
+            let r_ui = "../share/iconvwadw/ui/main.ui"; //release
+            let view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
 
             let build = Builder::from_file(
                 dir.parent()
@@ -236,8 +236,8 @@ fn main() {
                 let _win = window.clone();
                 let _dir = dir.clone();
                 move |_, _| {
-                    let about_ui = "../../data/ui/about.ui"; //devmode
-                    //let about_ui = "../share/iconvwadw/ui/about.ui"; //release
+                    //let about_ui = "../../data/ui/about.ui"; //devmode
+                    let about_ui = "../share/iconvwadw/ui/about.ui"; //release
 
                     let about_build = Builder::from_file(
                         _dir.parent()
