@@ -11,6 +11,7 @@
           <object class="GtkBox">
             <property name="halign">center</property>
             <property name="orientation">vertical</property>
+            <property name="spacing">5</property>
             <property name="valign">center</property>
             <child>
               <object class="GtkPicture" id="pic_icon">

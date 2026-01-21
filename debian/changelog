@@ -1,5 +1,5 @@
-iconvwadw (0.1.25-1) noble; urgency=medium
+iconvwadw (0.1.27-1) noble; urgency=medium
 
-  * this version is project rust.
+  * Load image and Dialog image view fixed update
 
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Mon, 14 Jan 2026 09:42:07 -0600
+ -- Ronald Sanchez <ronald_soft88@outlook.com>  Mon, 19 Jan 2026 09:42:07 -0600

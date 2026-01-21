@@ -1,6 +1,7 @@
 use gtk::glib;
-use glib::prelude::*;
+use glib::{prelude::*};
 use glib::{Object, Properties, subclass::prelude::*};
+use gtk::gdk::{Texture};
 use std::cell::RefCell;
 
 glib::wrapper! {
@@ -13,6 +14,7 @@ impl IconItem {
         Object::builder()
             .property("name", name)
             .property("path", path)
+            .property("texture", None::<Texture>)
             .build()
     }
 }
@@ -23,6 +25,7 @@ impl Default for IconItem {
        Object::builder()
             .property("name", "")
             .property("path", "")
+            .property("texture", None::<Texture>)
             .build()
     }
 }
@@ -37,6 +40,8 @@ mod imp {
         name: RefCell<String>,
         #[property(get, set)]
         path: RefCell<String>,
+        #[property(get, set)]
+        texture: RefCell<Option<Texture>>,
     }
 
     #[glib::object_subclass]

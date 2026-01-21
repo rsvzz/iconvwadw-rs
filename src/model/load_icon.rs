@@ -1,4 +1,4 @@
-use crate::model::IconItem;
+use crate::model::{IconItem};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::{GridView, NoSelection};
 use std::fs;
@@ -27,15 +27,20 @@ impl LoadIcon {
 
         let ic_source = Path::new(&self.path);
         if ic_source.is_dir() {
+
             for entrada in fs::read_dir(ic_source).unwrap() {
+                
                 let entrada = entrada.unwrap();
                 let dir = entrada.path();
 
                 if dir.is_file() {
-                    store.append(&IconItem::new(
+                    let item = IconItem::new(
                         dir.to_string_lossy().to_string(),
                         dir.file_stem().unwrap().to_string_lossy().to_string(),
-                    ));
+                    );
+
+                    store.append(&item);
+                    
                 }
             }
         }

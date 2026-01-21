@@ -6,13 +6,14 @@ use adw::{
 };
 use gtk::gdk::{Display, Texture};
 use gtk::gio;
-use gtk::glib::{Propagation};
+use gtk::glib::{Bytes, Propagation, MainContext};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
 };
 
 use std::path::Path;
+use std;
 use std::{env, thread};
 
 fn main() {
@@ -24,11 +25,11 @@ fn main() {
     app.connect_activate({
         let dir = path.clone();
         move |app| {
-            //let r_ui = "../../data/ui/main.ui"; //devmode
-            //let view_ui = "../../data/ui/view_data.ui"; //devmode
+            let r_ui = "../../data/ui/main.ui"; //devmode
+            let view_ui = "../../data/ui/view_data.ui"; //devmode
 
-            let r_ui = "../share/iconvwadw/ui/main.ui"; //release
-            let view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
+            //let r_ui = "../share/iconvwadw/ui/main.ui"; //release
+            //let view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
 
             let build = Builder::from_file(
                 dir.parent()
@@ -66,7 +67,6 @@ fn main() {
                 list_item.set_child(Some(&image));
             });
 
-            let load_svg = LoadSvg::new(60, 60);
             let win_icon: Window = build_view.object("win_icon_view").unwrap();
             win_icon.set_transient_for(Some(&window));
             win_icon.set_modal(true);
@@ -91,8 +91,11 @@ fn main() {
                 Propagation::Stop
             });
             let svg_view = LoadSvg::new(150, 150); //view click
+
+            let (tx, rx) = std::sync::mpsc::channel::<cairo::glib::Bytes>();
+
             factory_grid.connect_bind({
-                let svg = load_svg.clone();
+
                 let build_icon = build_view.clone();
                 let _win_icon = win_icon.clone();
                 let svg_v = svg_view.clone();
@@ -100,42 +103,47 @@ fn main() {
                     let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
                     let item = list_item.item().and_downcast::<IconItem>().unwrap();
-                    let path_c = item.path().to_string();
-                    let svg_c = svg.clone();
+                    let path_icon = item.path().to_string();
+                    let tx_cp = tx.clone();
+                    let svg_cp = svg_v.clone();
+
+                     _ = thread::spawn(move || {
+                        let bytes = svg_cp.get_texture_for_png(path_icon);
+                        tx_cp.send(bytes).unwrap();
+                       
+                    }).join();
+
                     let img = image.clone();
-                    let (tx, rx) = std::sync::mpsc::channel();
-
-                    thread::spawn(move || { 
-                        // Trabajo pesado fuera del hilo principal 
-                        let texture_bytes: cairo::glib::Bytes = svg_c.get_texture_for_png(path_c); 
-                        tx.send(texture_bytes).unwrap(); 
+                    let rx_cp = rx.try_recv().clone();
+                    let item_cp = item.clone();
+                   MainContext::default().spawn_local(async move {
+                        if let Ok(bytes) = rx_cp.clone() {
+                            if let Ok(texture_byte) =
+                                Texture::from_bytes(&Bytes::from_owned(bytes))
+                            {
+                                item_cp.set_texture(&texture_byte);
+                                img.set_paintable(Some(&texture_byte));
+                            }
+                        }
                     });
-                
-                    gtk::glib::idle_add_local(move || { 
-                        if let Ok(bytes) = rx.try_recv() { 
-                            //glib::Bytes from gtk new version
-                            if let Ok(texture) = Texture::from_bytes(&gtk::glib::Bytes::from_owned(bytes)) { 
-                                img.set_paintable(Some(&texture));
-                             } 
-                            } 
-                            gtk::glib::ControlFlow::Continue
-                        });
+                    //image.set_paintable(Some(&item.texture().unwrap()));
 
-                    //let texture: Texture = svg.get_texture_for_png(item.path().to_string());
-                    //image.set_paintable(Some(&texture));
                     let gesture = GestureClick::new();
                     gesture.connect_pressed({
                         let item_c = item.clone();
                         let view_win = build_icon.clone();
                         let icon_win = _win_icon.clone();
-                        let svg_ic = svg_v.clone();
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
                             //glib from cairo old version
-                            let _texture_bytes:cairo::glib::Bytes  = svg_ic.get_texture_for_png(item_c.path().to_string());
-                            
-                            if let Ok(texture) = Texture::from_bytes(&gtk::glib::Bytes::from_owned(_texture_bytes)){
-                                    icon.set_paintable(Some(&texture)); 
+                            let svg_dg = LoadSvg::new(150, 150);
+                            let _texture_bytes: cairo::glib::Bytes =
+                                svg_dg.get_texture_for_png(item_c.path().to_string());
+
+                            if let Ok(texture) =
+                                Texture::from_bytes(&gtk::glib::Bytes::from_owned(_texture_bytes))
+                            {
+                                icon.set_paintable(Some(&texture));
                             }
 
                             let lbl_name: Label = view_win.object("lbl_icon_name").unwrap();
@@ -150,13 +158,14 @@ fn main() {
 
             view_grid.set_factory(Some(&factory_grid));
             //read path
-            let path_symb : String;
+            let path_symb: String;
             let path_scalable: String;
             //exist SNAP
             match env::var("SNAP") {
                 Ok(snap_path) => {
                     let symb_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
-                    let scalable_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
+                    let scalable_path =
+                        Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
 
                     path_symb = symb_path.display().to_string();
                     path_scalable = scalable_path.display().to_string();
@@ -227,8 +236,8 @@ fn main() {
                 let _win = window.clone();
                 let _dir = dir.clone();
                 move |_, _| {
-                    //let about_ui = "../../data/ui/about.ui"; //devmode
-                    let about_ui = "../share/iconvwadw/ui/about.ui"; //release
+                    let about_ui = "../../data/ui/about.ui"; //devmode
+                    //let about_ui = "../share/iconvwadw/ui/about.ui"; //release
 
                     let about_build = Builder::from_file(
                         _dir.parent()
