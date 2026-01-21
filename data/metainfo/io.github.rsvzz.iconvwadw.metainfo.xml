@@ -27,11 +27,11 @@
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
     
-     <release version="0.1.27" date="2026-01-19">
+     <release version="0.1.28" date="2026-01-21">
       <description translate="no">
         <p>Changed:</p>
         <ul>
-          <li>Fixed copy icon name without extention working</li>
+          <li>thread load icon added</li>
         </ul>
       </description>
     </release>
