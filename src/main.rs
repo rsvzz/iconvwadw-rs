@@ -6,15 +6,13 @@ use adw::{
 };
 use gtk::gdk::{Display, Texture};
 use gtk::gio;
-use gtk::glib::{Bytes, Propagation, MainContext};
+use gtk::glib::{Propagation};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
 };
 
-use std::path::Path;
-use std;
-use std::{env, thread};
+use std::{env, path::Path};
 
 fn main() {
     let app = Application::builder()
@@ -92,51 +90,26 @@ fn main() {
             });
             let svg_view = LoadSvg::new(150, 150); //view click
 
-            let (tx, rx) = std::sync::mpsc::channel::<cairo::glib::Bytes>();
-
             factory_grid.connect_bind({
 
                 let build_icon = build_view.clone();
                 let _win_icon = win_icon.clone();
-                let svg_v = svg_view.clone();
                 move |_, obj| {
                     let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
                     let item = list_item.item().and_downcast::<IconItem>().unwrap();
-                    let path_icon = item.path().to_string();
-                    let tx_cp = tx.clone();
-                    let svg_cp = svg_v.clone();
-
-                     _ = thread::spawn(move || {
-                        let bytes = svg_cp.get_texture_for_png(path_icon);
-                        tx_cp.send(bytes).unwrap();
-                       
-                    }).join();
-
-                    let img = image.clone();
-                    let rx_cp = rx.try_recv().clone();
-                    let item_cp = item.clone();
-                   MainContext::default().spawn_local(async move {
-                        if let Ok(bytes) = rx_cp.clone() {
-                            if let Ok(texture_byte) =
-                                Texture::from_bytes(&Bytes::from_owned(bytes))
-                            {
-                                item_cp.set_texture(&texture_byte);
-                                img.set_paintable(Some(&texture_byte));
-                            }
-                        }
-                    });
-                    //image.set_paintable(Some(&item.texture().unwrap()));
+                    image.set_paintable(Some(&item.texture().unwrap()));
 
                     let gesture = GestureClick::new();
                     gesture.connect_pressed({
                         let item_c = item.clone();
                         let view_win = build_icon.clone();
                         let icon_win = _win_icon.clone();
+                        let svg_dg = svg_view.clone();
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
                             //glib from cairo old version
-                            let svg_dg = LoadSvg::new(150, 150);
+                            
                             let _texture_bytes: cairo::glib::Bytes =
                                 svg_dg.get_texture_for_png(item_c.path().to_string());
 

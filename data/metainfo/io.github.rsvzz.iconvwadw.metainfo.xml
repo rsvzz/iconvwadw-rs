@@ -6,17 +6,18 @@
   <summary>Icon Browser for Adwaita</summary>
   <description>
     <p>
-        icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy the icon names for use in your projects.
+      icon-browser-adw allows you to view the gnome desktop icons with adwaita, allowing you to copy
+      the icon names for use in your projects.
     </p>
   </description>
 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <launchable type="desktop-id">io.github.rsvzz.iconvwadw.desktop</launchable>
-  
+
 
   <developer id="io.github.rsvzz">
-      <name>Ronald Sanchez</name>
+    <name>Ronald Sanchez</name>
   </developer>
   <provides>
     <binary>iconvwadw</binary>
@@ -26,8 +27,16 @@
   <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
-    
-     <release version="0.1.28" date="2026-01-21">
+    <release version="0.1.29" date="2026-01-23">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>fixed thread load</li>
+        </ul>
+      </description>
+    </release>
+
+    <release version="0.1.28" date="2026-01-21">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -35,7 +44,7 @@
         </ul>
       </description>
     </release>
-    
+
     <release version="0.1.25" date="2026-01-13">
       <description translate="no">
         <p>Changed:</p>
@@ -54,7 +63,7 @@
       </description>
     </release>
 
-     <release version="0.1.21" date="2025-12-15">
+    <release version="0.1.21" date="2025-12-15">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -63,7 +72,7 @@
       </description>
     </release>
 
-   <release version="0.1.17" date="2025-09-19">
+    <release version="0.1.17" date="2025-09-19">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -74,7 +83,7 @@
       </description>
     </release>
 
- <release version="0.1.14" date="2025-08-23">
+    <release version="0.1.14" date="2025-08-23">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -85,7 +94,7 @@
     </release>
 
 
-  <release version="0.1.10" date="2025-08-02">
+    <release version="0.1.10" date="2025-08-02">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -95,7 +104,7 @@
       </description>
     </release>
 
-   <release version="0.1.7" date="2025-06-10">
+    <release version="0.1.7" date="2025-06-10">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -104,7 +113,7 @@
       </description>
     </release>
 
-  <release version="0.1.5" date="2025-05-31">
+    <release version="0.1.5" date="2025-05-31">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -114,7 +123,7 @@
       </description>
     </release>
 
-   <release version="0.1.2" date="2025-05-13">
+    <release version="0.1.2" date="2025-05-13">
       <description translate="no">
         <p>Changed:</p>
         <ul>
@@ -123,23 +132,26 @@
       </description>
     </release>
   </releases>
- 
-   <screenshots>
-      <screenshot type="default">
-        <caption>Main window Light</caption>
-        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v1.png</image>
-      </screenshot>
 
-       <screenshot>
-        <caption>Main window Dark</caption>
-        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/dark_v1.png</image>
-      </screenshot>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window Light</caption>
+      <image type="source" width="800" height="600">
+        https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v1.png</image>
+    </screenshot>
 
-       <screenshot>
-        <caption>Scalable View</caption>
-        <image type="source" width="800" height="600">https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v2.png</image>
-      </screenshot>
-      
+    <screenshot>
+      <caption>Main window Dark</caption>
+      <image type="source" width="800" height="600">
+        https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/dark_v1.png</image>
+    </screenshot>
+
+    <screenshot>
+      <caption>Scalable View</caption>
+      <image type="source" width="800" height="600">
+        https://raw.githubusercontent.com/rsvzz/iconvwadw-rs/4a3fbb22e500386e3538c05532798f403cb46407/data/screenshot/light_v2.png</image>
+    </screenshot>
+
   </screenshots>
 
   <content_rating type="oars-1.1" />

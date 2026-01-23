@@ -1,11 +1,7 @@
 use crate::model::{LoadIcon, PathModel};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::{GridView, ListView, SingleSelection};
-use std::cell::RefCell;
-use std::fs;
-use std::path::Path;
-use std::rc::Rc;
-
+use std::{cell::RefCell, fs, path::Path, rc::Rc};
 #[derive(Debug, PartialEq, Eq)]
 pub enum PathIconAdw {
     SYMBOL,
@@ -72,8 +68,8 @@ impl LoadPath {
                 move |sel| {
                     let pos = sel.selected();
                     if pos != gtk::INVALID_LIST_POSITION {
-                        let item = sel.selected_item().and_downcast::<PathModel>().unwrap();
-                        load_ic.borrow_mut().set_data_source(item.path());
+                            let item = sel.selected_item().and_downcast::<PathModel>().unwrap();
+                            load_ic.borrow_mut().set_data_source(item.path());
                     }
                 }
             });

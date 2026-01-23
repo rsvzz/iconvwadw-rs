@@ -30,7 +30,7 @@ parts:
 
   icon-browser-adw:
     plugin: meson
-    source: https://github.com/rsvzz/iconvwadw-rs/releases/download/${CRAFT_PROJECT_VERSION}/iconvmadw-rs_all.tar.xz
+    source: https://github.com/rsvzz/iconvwadw-rs/releases/download/${CRAFT_PROJECT_VERSION}/iconvwadw-rs_all.tar.xz
     meson-parameters:
       - --prefix=/
       - --buildtype=release

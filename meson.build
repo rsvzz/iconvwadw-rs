@@ -1,6 +1,6 @@
 project('iconvwadw', 
 'rust',
- version: '0.1.28'
+ version: '0.1.29'
  )
  
  meson.add_dist_script(
