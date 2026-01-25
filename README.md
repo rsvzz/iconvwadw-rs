@@ -8,7 +8,9 @@ Migrating iconvwadw project C++ to Rust
 # Get it from Flathub
 [![Get it on Flathub](https://flathub.org/api/badge?svg&locale=en)](https://flathub.org/apps/io.github.rsvzz.iconvwadw)
 
+# Get it from Snap
 [![Get it from the Snap Store](https://snapcraft.io/en/dark/install.svg)](https://snapcraft.io/icon-browser-adw)
+
 
 # Get Ubuntu 24.04 LTS
 [![Get it Launchpad](https://launchpadlibrarian.net/606381979/CoF%2064px.png)](https://launchpad.net/~rsvzz/+archive/ubuntu/iconvwadw)

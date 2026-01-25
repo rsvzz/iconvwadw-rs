@@ -6,7 +6,7 @@ use adw::{
 };
 use gtk::gdk::{Display, Texture};
 use gtk::gio;
-use gtk::glib::{Propagation};
+use gtk::glib::Propagation;
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
@@ -23,11 +23,16 @@ fn main() {
     app.connect_activate({
         let dir = path.clone();
         move |app| {
-            //let r_ui = "../../data/ui/main.ui"; //devmode
-            //let view_ui = "../../data/ui/view_data.ui"; //devmode
+            let r_ui: &str;
+            let view_ui: &str;
 
-            let r_ui = "../share/iconvwadw/ui/main.ui"; //release
-            let view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
+            if cfg!(debug_assertions) {
+                r_ui = "../../data/ui/main.ui"; //devmode
+                view_ui = "../../data/ui/view_data.ui"; //devmode
+            } else {
+                r_ui = "../share/iconvwadw/ui/main.ui"; //release
+                view_ui = "../share/iconvwadw/ui/view_data.ui"; //release
+            }
 
             let build = Builder::from_file(
                 dir.parent()
@@ -36,6 +41,11 @@ fn main() {
                     .to_string_lossy()
                     .to_string(),
             );
+
+            if !cfg!(debug_assertions) {
+                let icon_main: Image = build.object("icon_main").unwrap();
+                icon_main.set_icon_name(Some("io.github.rsvzz.iconvwadw"));
+            }
 
             let build_view = Builder::from_file(
                 dir.parent()
@@ -91,7 +101,6 @@ fn main() {
             let svg_view = LoadSvg::new(150, 150); //view click
 
             factory_grid.connect_bind({
-
                 let build_icon = build_view.clone();
                 let _win_icon = win_icon.clone();
                 move |_, obj| {
@@ -109,7 +118,7 @@ fn main() {
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
                             //glib from cairo old version
-                            
+
                             let _texture_bytes: cairo::glib::Bytes =
                                 svg_dg.get_texture_for_png(item_c.path().to_string());
 
@@ -209,8 +218,13 @@ fn main() {
                 let _win = window.clone();
                 let _dir = dir.clone();
                 move |_, _| {
-                    //let about_ui = "../../data/ui/about.ui"; //devmode
-                    let about_ui = "../share/iconvwadw/ui/about.ui"; //release
+                    let about_ui: &str;
+
+                    if cfg!(debug_assertions) {
+                        about_ui = "../../data/ui/about.ui"; //devmode
+                    } else {
+                        about_ui = "../share/iconvwadw/ui/about.ui"; //release
+                    }
 
                     let about_build = Builder::from_file(
                         _dir.parent()
@@ -220,7 +234,13 @@ fn main() {
                             .to_string(),
                     );
 
+                    
+
                     let _dialog: AboutDialog = about_build.object("about_dialog").unwrap();
+
+                    if !cfg!(debug_assertions) {
+                        _dialog.set_application_icon("io.github.rsvzz.iconvwadw");
+                    }
 
                     _dialog.present(Some(&_win));
                 }
