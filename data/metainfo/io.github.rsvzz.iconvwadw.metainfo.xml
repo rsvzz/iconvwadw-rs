@@ -27,6 +27,17 @@
   <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
+
+    <release version="0.1.30" date="2026-01-26">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+           <li>Fixed convert icon to png for view</li>
+          <li>Optimization code</li>
+        </ul>
+      </description>
+    </release>
+
     <release version="0.1.29" date="2026-01-23">
       <description translate="no">
         <p>Changed:</p>
