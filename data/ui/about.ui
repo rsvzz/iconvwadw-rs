@@ -5,6 +5,7 @@
   <requires lib="libadwaita" version="1.5"/>
   <object class="AdwAboutDialog" id="about_dialog">
     <property name="application-name">icon-browser-adw</property>
+    <property name="application-icon"></property>
     <property name="copyright"> </property>
     <property name="designers">@rsvzz</property>
     <property name="developer-name">© rsvzz 2026</property>

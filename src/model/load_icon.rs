@@ -29,35 +29,40 @@ impl LoadIcon {
             .item_type(IconItem::static_type())
             .build();
 
+        let selectmode = NoSelection::new(Some(store.clone().upcast::<ListModel>()));
+        self.view_gv.set_model(Some(&selectmode));
+
         let ic_source = Path::new(&self.path);
+        let (tx, rx) = std::sync::mpsc::channel::<Bytes>();
+        let svg = LoadSvg::new(60, 60); //view click
+
         if ic_source.is_dir() {
-            
-            let (tx, rx) = std::sync::mpsc::channel::<Bytes>();
-            let svg = LoadSvg::new(60, 60); //view click
+
             for entrada in fs::read_dir(ic_source).unwrap() {
                 let entrada = entrada.unwrap();
                 let dir = entrada.path();
-        
+
                 if dir.is_file() {
                     let item = IconItem::new(
                         dir.to_string_lossy().to_string(),
                         dir.file_stem().unwrap().to_string_lossy().to_string(),
                     );
-                    let svg_cp = svg.clone();
                     let path_icon = item.path().to_string();
+                    let svg_cp = svg.clone();
                     let tx_cp = tx.clone();
-                    _  = thread::spawn(move || {
+                    _ = thread::spawn(move || {
                         let bytes = svg_cp.get_texture_for_png(path_icon);
                         tx_cp.send(bytes).unwrap();
                     });
 
+                    let item_cp = item.clone();
                     let store_cp = store.clone();
                     let rx_cp = rx.recv().clone();
-                    let item_cp = item.clone();
 
                     MainContext::default().spawn_local(async move {
-                        if let Ok(bytes) = rx_cp.clone() {
-                            if let Ok(texture) =Texture::from_bytes(&gtk::glib::Bytes::from_owned(bytes))
+                        if let Ok(bytes) = rx_cp {
+                            if let Ok(texture) =
+                                Texture::from_bytes(&gtk::glib::Bytes::from_owned(bytes))
                             {
                                 item_cp.set_texture(&texture);
                                 store_cp.append(&item_cp);
@@ -66,11 +71,6 @@ impl LoadIcon {
                     });
                 }
             }
-            drop(tx);
         }
-
-        let selectmode = NoSelection::new(Some(store.upcast::<ListModel>()));
-
-        self.view_gv.set_model(Some(&selectmode));
     }
 }
