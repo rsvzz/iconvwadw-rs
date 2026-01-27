@@ -42,9 +42,9 @@ fn main() {
                     .to_string(),
             );
 
-            if !cfg!(debug_assertions) {
+            if cfg!(debug_assertions) {
                 let icon_main: Image = build.object("icon_main").unwrap();
-                icon_main.set_icon_name(Some("io.github.rsvzz.iconvwadw"));
+                icon_main.set_icon_name(Some(""));
             }
 
             let build_view = Builder::from_file(
@@ -117,7 +117,7 @@ fn main() {
                         let svg_dg = svg_view.clone();
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
-                            //glib from cairo old version ubuntu 24.04 ltc 
+                            //glib from cairo old version ubuntu 24.04 ltc
                             let _texture_bytes: cairo::glib::Bytes =
                                 svg_dg.get_texture_for_png(item_c.path().to_string());
 
@@ -234,8 +234,9 @@ fn main() {
                     );
 
                     let _dialog: AboutDialog = about_build.object("about_dialog").unwrap();
-                    if !cfg!(debug_assertions) {
-                        _dialog.set_application_icon("io.github.rsvzz.iconvwadw");
+
+                    if cfg!(debug_assertions) {
+                        _dialog.set_application_icon("");
                     }
 
                     _dialog.present(Some(&_win));

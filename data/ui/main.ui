@@ -80,6 +80,7 @@
                     <child type="start">
                       <object class="GtkImage" id="icon_main">
                         <property name="focus-on-click">False</property>
+                        <property name="icon-name">io.github.rsvzz.iconvwadw</property>
                       </object>
                     </child>
                   </object>
