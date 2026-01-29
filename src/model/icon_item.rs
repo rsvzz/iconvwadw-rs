@@ -1,7 +1,6 @@
 use gtk::glib;
-use glib::{prelude::*};
+use glib::{Bytes, prelude::*};
 use glib::{Object, Properties, subclass::prelude::*};
-use gtk::gdk::{Texture};
 use std::cell::RefCell;
 
 glib::wrapper! {
@@ -9,23 +8,22 @@ glib::wrapper! {
 }
 //Icon
 impl IconItem {
-
     pub fn new(path: String, name: String) -> Self {
         Object::builder()
             .property("name", name)
             .property("path", path)
-            .property("texture", None::<Texture>)
+            .property("texture", Bytes::from_owned(Vec::new()))
             .build()
     }
 }
 
 impl Default for IconItem {
-      fn default() -> Self {
+    fn default() -> Self {
         // Empty
-       Object::builder()
-            .property("name", "")
-            .property("path", "")
-            .property("texture", None::<Texture>)
+        Object::builder()
+            .property("name", String::new())
+            .property("path", String::new())
+            .property("texture", Bytes::from_owned(Vec::new()))
             .build()
     }
 }
@@ -41,7 +39,7 @@ mod imp {
         #[property(get, set)]
         path: RefCell<String>,
         #[property(get, set)]
-        texture: RefCell<Option<Texture>>,
+        texture: RefCell<Option<Bytes>>,
     }
 
     #[glib::object_subclass]

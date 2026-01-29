@@ -6,7 +6,7 @@ use adw::{
 };
 use gtk::gdk::{Display, Texture};
 use gtk::gio;
-use gtk::glib::Propagation;
+use gtk::glib::{Propagation, Bytes};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
@@ -107,7 +107,6 @@ fn main() {
                     let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let image: Picture = list_item.child().and_downcast::<Picture>().unwrap();
                     let item = list_item.item().and_downcast::<IconItem>().unwrap();
-                    image.set_paintable(Some(&item.texture().unwrap()));
 
                     let gesture = GestureClick::new();
                     gesture.connect_pressed({
@@ -118,11 +117,10 @@ fn main() {
                         move |_, _, _, _| {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
                             //glib from cairo old version ubuntu 24.04 ltc
-                            let _texture_bytes: cairo::glib::Bytes =
-                                svg_dg.get_texture_for_png(item_c.path().to_string());
-
+                            let bytes = svg_dg.get_texture_for_png(item_c.path().to_string());
+                    
                             if let Ok(texture) =
-                                Texture::from_bytes(&gtk::glib::Bytes::from_owned(_texture_bytes))
+                                Texture::from_bytes(&Bytes::from_owned(bytes))
                             {
                                 icon.set_paintable(Some(&texture));
                             }
@@ -134,6 +132,20 @@ fn main() {
                         }
                     });
                     image.add_controller(gesture);
+
+                    item.bind_property("texture", &image, "paintable")
+                        .flags(gtk::glib::BindingFlags::SYNC_CREATE)
+                        .transform_to(|_, value: Bytes|{
+                            // Crear textura desde los bytes 
+                            if let Ok(texture) = Texture::from_bytes(&value){
+                                 Some(texture)
+                            }
+                            else{
+                                None
+                            }
+                           
+                        })
+                        .build();
                 }
             });
 

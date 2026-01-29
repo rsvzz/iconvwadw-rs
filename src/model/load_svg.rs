@@ -1,4 +1,4 @@
-use cairo::{Context, Format, ImageSurface, Rectangle, glib::Bytes};
+use cairo::{Context, Format, ImageSurface, Rectangle};
 use rsvg::{Loader, CairoRenderer,};
 #[derive(Clone)]
 pub struct LoadSvg{
@@ -15,11 +15,12 @@ impl LoadSvg{
         }
     }
 
-    pub fn get_texture_for_png(&self, path: String) -> Bytes{
+    pub fn get_texture_for_png(&self, path: String) -> Vec<u8>{
         let surface =  self.get_render_surface(path);
         let mut buf: Vec<u8> = Vec::new();
         let _ = surface.write_to_png(&mut buf);
-        Bytes::from_owned(buf)
+        //Bytes::from_owned(buf)
+        buf
     }
 
     fn get_render_surface(&self, path: String) -> ImageSurface{
