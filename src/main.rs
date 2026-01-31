@@ -81,7 +81,7 @@ fn main() {
             win_icon.set_resizable(false);
 
             let btn_copy: Button = build_view.object("btn_copy").unwrap();
-            let lbl_icon: Label = build_view.object("lbl_icon_name").unwrap();
+            let lbl_icon: Label = build_view.object("lbl_title_icon").unwrap();
             btn_copy.connect_clicked({
                 let lbl_icon = lbl_icon.clone();
                 let win_ic = win_icon.clone();
@@ -125,7 +125,7 @@ fn main() {
                                 icon.set_paintable(Some(&texture));
                             }
 
-                            let lbl_name: Label = view_win.object("lbl_icon_name").unwrap();
+                            let lbl_name: Label = view_win.object("lbl_title_icon").unwrap();
                             lbl_name.set_label(&item_c.name());
                             icon_win.set_visible(true);
                             icon_win.present();

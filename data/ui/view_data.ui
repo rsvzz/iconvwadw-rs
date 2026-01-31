@@ -20,22 +20,11 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox">
-                <child>
-                  <object class="GtkLabel" id="lbl_icon_name">
-                    <property name="halign">center</property>
-                    <property name="label">icon_name</property>
-                    <property name="valign">center</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="btn_copy">
-                    <property name="halign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="icon-name">edit-copy-symbolic</property>
-                    <property name="valign">center</property>
-                  </object>
-                </child>
+              <object class="GtkButton" id="btn_copy">
+                <property name="halign">center</property>
+                <property name="hexpand">True</property>
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
@@ -43,15 +32,20 @@
         <child type="top">
           <object class="AdwHeaderBar">
             <property name="title-widget">
-              <object class="GtkLabel">
-                <property name="label">Icon View</property>
+              <object class="GtkLabel" id="lbl_title_icon">
+                <property name="ellipsize">end</property>
+                <property name="label">Icon Name</property>
+                <property name="width-chars">30</property>
+                <property name="wrap">True</property>
               </object>
             </property>
           </object>
         </child>
       </object>
     </property>
+    <property name="halign">center</property>
     <property name="resizable">False</property>
     <property name="title">Icon View</property>
+    <property name="valign">center</property>
   </object>
 </interface>
