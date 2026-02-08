@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 mod model;
 use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
@@ -153,19 +154,32 @@ fn main() {
             //read path
             let path_symb: String;
             let path_scalable: String;
-            //exist SNAP
-            match env::var("SNAP") {
-                Ok(snap_path) => {
-                    let symb_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
-                    let scalable_path =
-                        Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
-
-                    path_symb = symb_path.display().to_string();
-                    path_scalable = scalable_path.display().to_string();
+            
+            if cfg!(target_os = "windows"){
+                if let Some(root) = dir.parent(){
+                        let base = root.parent().unwrap(); //top root of /bin
+                        path_symb = base.join("share").join("icons").join("Adwaita").join("symbolic").display().to_string();
+                        path_scalable = base.join("share").join("icons").join("Adwaita").join("scalable").display().to_string(); 
                 }
-                Err(_) => {
-                    path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
-                    path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
+                else{
+                     path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
+                        path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
+                }
+            }
+            else {
+                match env::var("SNAP") {
+                    Ok(snap_path) => {
+                        let symb_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
+                        let scalable_path =
+                            Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
+
+                        path_symb = symb_path.display().to_string();
+                        path_scalable = scalable_path.display().to_string();
+                    }
+                    Err(_) => {
+                        path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
+                        path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
+                    }
                 }
             }
 
