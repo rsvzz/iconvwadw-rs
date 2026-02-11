@@ -25,4 +25,13 @@ Migrating iconvwadw project C++ to Rust
     librsvg2-2 >= 2.58
     adwaita-icon-theme
 
+# Install
+    meson builddir --buildtype=release --prefix=/usr
+    cd builddir
+    ninja
+    sudo ninja install
+
+# Uninstall
+    sudo ninja uninstall
+
 

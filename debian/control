@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: rsvzz <ronald_soft88@outlook.com>
 Build-Depends: debhelper-compat (= 13), meson, ninja-build, pkg-config, cargo-1.85, rustc-1.85, libgtk-4-dev, libadwaita-1-dev, librsvg2-dev (>= 2.58), libxml2-dev (>= 2.9)
 Standards-Version: 4.5.0
-Homepage: https://github.com/rsvzz/csven-rs
+Homepage: https://github.com/rsvzz/iconvwadw-rs
 
 Package: iconvwadw
 Architecture: any
