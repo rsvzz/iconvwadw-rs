@@ -21,7 +21,7 @@ buildtype = get_option('buildtype')
 cargo_flag = []
 src_exe = 'debug'
 
-if buildtype == 'release' or buildtype == 'debugoptimized'
+if buildtype != 'debug'
   cargo_flag = ['--release']
   src_exe = 'release'
 endif
