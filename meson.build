@@ -1,6 +1,6 @@
 project('iconvwadw', 
 'rust',
-version: '0.1.33',
+version: '0.1.34',
 default_options : ['buildtype=release']
  )
  

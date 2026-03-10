@@ -1,4 +1,4 @@
-use cairo::{Context, Format, ImageSurface, Rectangle};
+use gtk::cairo::{Context, Format, ImageSurface, Rectangle};
 use rsvg::{Loader, CairoRenderer,};
 #[derive(Clone)]
 pub struct LoadSvg{
