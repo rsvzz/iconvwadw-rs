@@ -1,3 +1,15 @@
+iconvwadw (0.1.36-1resolute1) resolute; urgency=medium
+
+  * fixed update add filter button for icons resolute
+
+ -- Ronald Sanchez <rsvzz@rsvzz-82ku>  Sun, 24 May 2026 12:01:47 -0600
+
+iconvwadw (0.1.36-1noble1) noble; urgency=medium
+
+  * fixed update add filter button for icons noble
+
+ -- Ronald Sanchez <rsvzz@rsvzz-82ku>  Sun, 24 May 2026 12:00:29 -0600
+
 iconvwadw (0.1.33-2) noble; urgency=medium
 
   * fixed update 

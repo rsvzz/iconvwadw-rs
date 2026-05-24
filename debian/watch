@@ -1,0 +1,4 @@
+version=5
+opts="mode=git, compression=gz, \filenamemangle=s%(?:.*?)?v?(\d\S+)%iconvwadw-rs-$1%" \
+https://github.com/rsvzz/iconvwadw-rs.git \
+refs/tags/v?(\d\S+)
