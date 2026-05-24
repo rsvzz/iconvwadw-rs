@@ -1,4 +1,4 @@
-use crate::model::{IconItem, LoadSvg};
+use crate::model::{DirList, IconItem, LoadSvg, PathModel};
 use glib::{Bytes, ControlFlow};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::glib;
@@ -75,6 +75,23 @@ impl LoadIcon {
             drop(tx);
         }
     }
+
+    pub fn set_data_items(&mut self, items: &ListStore) {
+        let store = ListStore::builder()
+            .item_type(IconItem::static_type())
+            .build();
+
+        for i in 0..items.n_items() {
+            if let Some(item) = items.item(i).and_downcast_ref::<PathModel>() {
+                store.append(&IconItem::new(item.path(), item.name()));
+            }
+        }
+
+        let selectmode = NoSelection::new(Some(store.upcast::<ListModel>()));
+        self.view_gv.set_model(Some(&selectmode));
+        self.set_texture_store();
+    }
+
     pub fn set_data_source(&mut self, source: String) {
         self.path = source;
 

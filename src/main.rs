@@ -1,18 +1,22 @@
 #![windows_subsystem = "windows"]
 mod model;
+use gtk::cairo::FontOptions;
 use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
 use adw::{
-    AboutDialog, Application, ApplicationWindow, ViewStack, ViewStackPage, Window, prelude::*,
+    AboutDialog, Application, ApplicationWindow, ColorScheme, EntryRow, PreferencesGroup,
+    StyleManager, ViewStack, ViewStackPage, Window, prelude::*,
 };
 use gtk::gdk::{Display, Texture};
-use gtk::gio;
-use gtk::glib::{Propagation, Bytes};
+use gtk::glib::{Bytes, Propagation};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
     Orientation, Picture, SignalListItemFactory,
 };
+use gtk::{gio, glib};
 
+use std::cell::RefCell;
+use std::rc::Rc;
 use std::{env, path::Path};
 
 fn main() {
@@ -62,6 +66,33 @@ fn main() {
             let stack: ViewStack = build.object("stack_view").unwrap();
             let list_view: ListView = build.object("list_folder_icon").unwrap();
             let view_grid: GridView = build.object("grid_icon").unwrap();
+            let btn_clear_mode: Button = build.object("btn_clear_mode").unwrap();
+            let btn_find: Button = build.object("btn_find").unwrap();
+            let adw_pref_search: PreferencesGroup = build.object("adw_pref_search").unwrap();
+            let et_search_icon: EntryRow = build.object("et_search_icon").unwrap();
+
+            btn_find.connect_clicked(glib::clone!(
+                #[weak]
+                adw_pref_search,
+                #[weak]
+                et_search_icon,
+                move |_| {
+                    adw_pref_search.set_visible(!adw_pref_search.is_visible());
+                    if !adw_pref_search.is_visible() {
+                        et_search_icon.set_text("");
+                    }
+                }
+            ));
+
+            let style_manager = StyleManager::default();
+
+            btn_clear_mode.connect_clicked(move |_| {
+                if style_manager.is_dark() {
+                    style_manager.set_color_scheme(ColorScheme::ForceLight);
+                } else {
+                    style_manager.set_color_scheme(ColorScheme::ForceDark);
+                }
+            });
 
             let factory_grid = SignalListItemFactory::new();
 
@@ -119,10 +150,8 @@ fn main() {
                             let icon: Picture = view_win.object("pic_icon").unwrap();
                             //glib from cairo old version ubuntu 24.04 ltc
                             let bytes = svg_dg.get_texture_for_png(item_c.path().to_string());
-                    
-                            if let Ok(texture) =
-                                Texture::from_bytes(&Bytes::from_owned(bytes))
-                            {
+
+                            if let Ok(texture) = Texture::from_bytes(&Bytes::from_owned(bytes)) {
                                 icon.set_paintable(Some(&texture));
                             }
 
@@ -136,15 +165,13 @@ fn main() {
 
                     item.bind_property("texture", &image, "paintable")
                         .flags(gtk::glib::BindingFlags::SYNC_CREATE)
-                        .transform_to(|_, value: Bytes|{
-                            // Crear textura desde los bytes 
-                            if let Ok(texture) = Texture::from_bytes(&value){
-                                 Some(texture)
-                            }
-                            else{
+                        .transform_to(|_, value: Bytes| {
+                            // Crear textura desde los bytes
+                            if let Ok(texture) = Texture::from_bytes(&value) {
+                                Some(texture)
+                            } else {
                                 None
                             }
-                           
                         })
                         .build();
                 }
@@ -154,22 +181,33 @@ fn main() {
             //read path
             let path_symb: String;
             let path_scalable: String;
-            
-            if cfg!(target_os = "windows"){
-                if let Some(root) = dir.parent(){
-                        let base = root.parent().unwrap(); //top root of /bin
-                        path_symb = base.join("share").join("icons").join("Adwaita").join("symbolic").display().to_string();
-                        path_scalable = base.join("share").join("icons").join("Adwaita").join("scalable").display().to_string(); 
+
+            if cfg!(target_os = "windows") {
+                if let Some(root) = dir.parent() {
+                    let base = root.parent().unwrap(); //top root of /bin
+                    path_symb = base
+                        .join("share")
+                        .join("icons")
+                        .join("Adwaita")
+                        .join("symbolic")
+                        .display()
+                        .to_string();
+                    path_scalable = base
+                        .join("share")
+                        .join("icons")
+                        .join("Adwaita")
+                        .join("scalable")
+                        .display()
+                        .to_string();
+                } else {
+                    path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
+                    path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
                 }
-                else{
-                     path_symb = String::from("/usr/share/icons/Adwaita/symbolic");
-                        path_scalable = String::from("/usr/share/icons/Adwaita/scalable");
-                }
-            }
-            else {
+            } else {
                 match env::var("SNAP") {
                     Ok(snap_path) => {
-                        let symb_path = Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
+                        let symb_path =
+                            Path::new(&snap_path).join("usr/share/icons/Adwaita/symbolic");
                         let scalable_path =
                             Path::new(&snap_path).join("usr/share/icons/Adwaita/scalable");
 
@@ -183,17 +221,60 @@ fn main() {
                 }
             }
 
-            let load_view = LoadPath::new(&list_view, path_symb, path_scalable, &view_grid);
-            load_view.set_files_path(PathIconAdw::SYMBOL);
-            stack.connect_visible_child_notify({
-                let load_v = load_view.clone();
-                move |stack| {
-                    if let Some(child) = stack.visible_child() {
+            let load_view = Rc::new(RefCell::new(LoadPath::new(
+                &list_view,
+                path_symb,
+                path_scalable,
+                &view_grid,
+            )));
+            load_view.borrow_mut().load_files();
+
+            load_view.borrow_mut().set_files_path(PathIconAdw::SYMBOL);
+            load_view
+                .borrow_mut()
+                .set_filter_loaded_files(PathIconAdw::SYMBOL);
+
+            let load_v = load_view.clone();
+            let et_search_cp = et_search_icon.clone();
+            let pref_group_cp = adw_pref_search.clone();
+            stack.connect_visible_child_notify(move |stack| {
+                if let Some(child) = stack.visible_child() {
+                    let page: ViewStackPage = stack.page(&child);
+                    et_search_cp.set_text("");
+                    pref_group_cp.set_visible(false);
+                    if page.name().unwrap_or_default() == "symbol" {
+                        load_v.borrow().set_files_path(PathIconAdw::SYMBOL);
+                        load_v
+                            .borrow_mut()
+                            .set_filter_loaded_files(PathIconAdw::SYMBOL);
+                    } else {
+                        load_v.borrow().set_files_path(PathIconAdw::SCALABLE);
+                        load_v
+                            .borrow_mut()
+                            .set_filter_loaded_files(PathIconAdw::SCALABLE);
+                    }
+                }
+            });
+            let load_view_cp = load_view.clone();
+            let stack_cp = stack.clone();
+
+            et_search_icon.connect_changed(move |row| {
+                //println!("{}", row.text());
+                if row.text().len() > 0 {
+                    load_view_cp
+                        .borrow()
+                        .set_filter_items_show(row.text().to_string());
+                } else {
+                    if let Some(child) = stack_cp.visible_child() {
                         let page: ViewStackPage = stack.page(&child);
                         if page.name().unwrap_or_default() == "symbol" {
-                            load_v.set_files_path(PathIconAdw::SYMBOL);
+                            load_view_cp
+                                .borrow_mut()
+                                .set_files_path(PathIconAdw::SYMBOL);
                         } else {
-                            load_v.set_files_path(PathIconAdw::SCALABLE);
+                            load_view_cp
+                                .borrow_mut()
+                                .set_files_path(PathIconAdw::SCALABLE);
                         }
                     }
                 }
@@ -203,7 +284,8 @@ fn main() {
 
             factory.connect_setup(move |_, obj| {
                 let list_item = obj.downcast_ref::<gtk::ListItem>().unwrap();
-                let label = Label::new(Some(""));
+                let label = Label::builder().margin_top(5).margin_bottom(5).build();
+
                 let box_content: Box = Box::builder()
                     .orientation(Orientation::Horizontal)
                     .spacing(5)

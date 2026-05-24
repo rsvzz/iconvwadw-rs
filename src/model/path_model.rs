@@ -2,6 +2,7 @@ use gtk::glib;
 use glib::prelude::*;
 use glib::{Object, Properties, subclass::prelude::*};
 use std::cell::RefCell;
+use gtk::gio::ListStore;
 
 glib::wrapper! {
     pub struct PathModel(ObjectSubclass<imp::PathModel>);
@@ -9,10 +10,11 @@ glib::wrapper! {
 
 impl PathModel {
 
-    pub fn new(path: String, name: String) -> Self {
+    pub fn new(path: String, name: String, list_store_icon: Option<&ListStore>) -> Self {
         Object::builder()
             .property("name", name)
             .property("path", path)
+            .property("list_icons", list_store_icon)
             .build()
     }
 }
@@ -23,11 +25,13 @@ impl Default for PathModel {
        Object::builder()
             .property("name", "")
             .property("path", "")
+            .property("list_icons", None::<ListStore>)
             .build()
     }
 }
 
 mod imp {
+
     use super::*;
 
     #[derive(Properties, Default)]
@@ -37,6 +41,8 @@ mod imp {
         name: RefCell<String>,
         #[property(get, set)]
         path: RefCell<String>,
+        #[property(get, set)]
+        list_icons: RefCell<Option<ListStore>>,
     }
 
     #[glib::object_subclass]
