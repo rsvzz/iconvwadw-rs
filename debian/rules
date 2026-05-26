@@ -6,7 +6,7 @@ export DH_VERBOSE=1
 	dh $@
 
 override_dh_auto_configure:
-	meson setup builddir --prefix=/usr --native-file=native.ini
+	meson setup builddir --prefix=/usr
 
 override_dh_auto_build: 
 	ninja -C builddir -j$(shell nproc)
