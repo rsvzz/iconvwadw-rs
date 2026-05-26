@@ -1,14 +1,14 @@
-iconvwadw (0.1.36-1resolute1) resolute; urgency=medium
+iconvwadw (0.1.37-1resolute) resolute; urgency=medium
 
-  * fixed update add filter button for icons resolute
+  * changed add button search and dark mode option
 
- -- Ronald Sanchez <rsvzz@rsvzz-82ku>  Sun, 24 May 2026 12:01:47 -0600
+ -- Ronald Sanchez <ronald_soft88@outlook.com>  Tue, 26 May 2026 11:05:05 -0600
 
-iconvwadw (0.1.36-1noble1) noble; urgency=medium
+iconvwadw (0.1.37-1noble) noble; urgency=medium
 
-  * fixed update add filter button for icons noble
+  * changed add button search and dark mode option
 
- -- Ronald Sanchez <rsvzz@rsvzz-82ku>  Sun, 24 May 2026 12:00:29 -0600
+ -- Ronald Sanchez <ronald_soft88@outlook.com>  Tue, 26 May 2026 10:57:30 -0600
 
 iconvwadw (0.1.33-2) noble; urgency=medium
 
