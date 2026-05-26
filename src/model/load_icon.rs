@@ -1,4 +1,4 @@
-use crate::model::{DirList, IconItem, LoadSvg, PathModel};
+use crate::model::{IconItem, LoadSvg, PathModel};
 use glib::{Bytes, ControlFlow};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::glib;

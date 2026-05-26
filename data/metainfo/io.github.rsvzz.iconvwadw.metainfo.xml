@@ -27,11 +27,12 @@
   <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
-      <release version="0.1.36" date="2026-05-24">
+      <release version="0.1.37" date="2026-05-26">
       <description translate="no">
         <p>Changed:</p>
         <ul>
           <li>add button filter</li>
+          <li>add button dark mode</li>
         </ul>
       </description>
     </release>

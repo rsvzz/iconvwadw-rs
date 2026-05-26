@@ -90,7 +90,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="btn_find">
-                        <property name="icon-name">search-symbolic</property>
+                        <property name="icon-name">system-search-symbolic</property>
                       </object>
                     </child>
                   </object>

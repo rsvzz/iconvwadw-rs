@@ -1,4 +1,4 @@
-use crate::model::{DirList, DirParent, LoadIcon, PathModel, dir_list};
+use crate::model::{DirList, DirParent, LoadIcon, PathModel};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::{GridView, ListView, SingleSelection};
 use std::{cell::RefCell, fs, path::Path, rc::Rc};
@@ -124,7 +124,7 @@ impl LoadPath {
 
                 for i in 0..items.n_items() {
                     if let Some(obj) = items.item(i).and_downcast_ref::<PathModel>() {
-                        if obj.name().starts_with(&filter) {
+                        if obj.name().contains(&filter) {
                             store.append(obj);
                         }
                     }

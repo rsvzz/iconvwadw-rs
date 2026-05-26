@@ -1,6 +1,5 @@
 #![windows_subsystem = "windows"]
 mod model;
-use gtk::cairo::FontOptions;
 use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
 use adw::{
