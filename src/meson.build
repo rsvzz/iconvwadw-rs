@@ -22,7 +22,7 @@ cargo_flag = []
 src_exe = 'debug'
 
 if buildtype != 'debug'
-  cargo_flag = ['--release','--locked', '--offline']
+  cargo_flag = ['--release']
   src_exe = 'release'
 endif
 
