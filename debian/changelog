@@ -1,35 +1,11 @@
+iconvwadw (0.1.38-1) resolute; urgency=medium
+
+  * changed add button search and dark mode option
+
+ -- Ronald Sanchez <ronald_soft88@outlook.com>  Fri, 29 May 2026 11:15:16 -0600
+
 iconvwadw (0.1.37-7) resolute; urgency=medium
 
-  * changed add button search and dark mode option
+  * new version v0.1.37 
 
- -- Ronald Sanchez <ronald_soft@outlook.com>  Thu, 28 May 2026 09:30:52 -0600
-
-iconvwadw (0.1.37-5) resolute; urgency=medium
-
-  * fixed update - changed add button search and dark mode option
-
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Thu, 28 May 2026 09:04:33 -0600
-
-iconvwadw (0.1.37-4) resolute; urgency=medium
-
-  * changed add button search and dark mode option
-
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Tue, 26 May 2026 12:29:12 -0600
-
-iconvwadw (0.1.37-3) resolute; urgency=medium
-
-  * changed add button search and dark mode option
-
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Tue, 26 May 2026 11:05:05 -0600
-
-iconvwadw (0.1.37-1) noble; urgency=medium
-
-  * changed add button search and dark mode option
-
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Tue, 26 May 2026 10:57:30 -0600
-
-iconvwadw (0.1.33-2) noble; urgency=medium
-
-  * fixed update 
-
- -- Ronald Sanchez <ronald_soft88@outlook.com>  Wed, 11 Feb 2026 10:14:30 -0600
+ -- Ronald Sanchez <ronald_soft88@outlook.com>  Thu, 28 May 2026 15:17:18 -0600

@@ -1,3 +1,5 @@
+use gtk4 as gtk;
+
 use crate::model::{DirList, DirParent, LoadIcon, PathModel};
 use gtk::gio::{ListModel, ListStore, prelude::*};
 use gtk::{GridView, ListView, SingleSelection};

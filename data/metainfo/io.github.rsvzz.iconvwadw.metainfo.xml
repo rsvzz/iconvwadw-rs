@@ -27,7 +27,7 @@
   <url type="bugtracker">https://github.com/rsvzz/iconvwadw-rs/issues</url>
   <url type="vcs-browser">https://github.com/rsvzz/iconvwadw-rs.git</url>
   <releases>
-      <release version="0.1.37" date="2026-05-26">
+      <release version="0.1.38" date="2026-05-29">
       <description translate="no">
         <p>Changed:</p>
         <ul>

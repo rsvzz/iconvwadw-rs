@@ -1,5 +1,7 @@
 #![windows_subsystem = "windows"]
 mod model;
+use gtk4 as gtk;
+use libadwaita as adw;
 use model::{IconItem, LoadPath, LoadSvg, PathIconAdw, PathModel};
 
 use adw::{

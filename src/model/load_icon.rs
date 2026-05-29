@@ -1,3 +1,5 @@
+use gtk4 as gtk;
+
 use crate::model::{IconItem, LoadSvg, PathModel};
 use glib::{Bytes, ControlFlow};
 use gtk::gio::{ListModel, ListStore, prelude::*};

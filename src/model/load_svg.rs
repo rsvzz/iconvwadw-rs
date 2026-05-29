@@ -1,5 +1,5 @@
-use gtk::cairo::{Context, Format, ImageSurface, Rectangle};
-use rsvg::{Loader, CairoRenderer,};
+use gtk4::cairo::{Context, Format, ImageSurface, Rectangle};
+use rsvg::{Loader, CairoRenderer};
 #[derive(Clone)]
 pub struct LoadSvg{
     width: i32,
@@ -16,7 +16,7 @@ impl LoadSvg{
     }
 
     pub fn get_texture_for_png(&self, path: String) -> Vec<u8>{
-        let surface =  self.get_render_surface(path);
+        let surface: gtk4::cairo::ImageSurface =  self.get_render_surface(path);
         let mut buf: Vec<u8> = Vec::new();
         let _ = surface.write_to_png(&mut buf);
         //Bytes::from_owned(buf)

@@ -1,3 +1,5 @@
+use gtk4 as gtk;
+
 use gtk::glib;
 use glib::{Bytes, prelude::*};
 use glib::{Object, Properties, subclass::prelude::*};
