@@ -1,5 +1,7 @@
-version=5
-opts=mode=git,compression=gz,filenamemangle=s%(?:.*?)?v?(\d\S+)%iconvwadw-$1%
-https://github.com/rsvzz/iconvwadw-rs.git \
-refs/tags/v?(\d\S+)
-
+Version: 5
+Source: https://api.github.com/repos/rsvzz/iconvwadw-rs/git/matching-refs/tags/
+Matching-Pattern: https://api.github.com/repos/[^/]+/[^/]+/git/refs/tags/@ANY_VERSION@
+Download-Url-Mangle: s%(api.github.com/repos/[^/]+/[^/]+)/git/refs/%$1/tarball/refs/%g
+Filename-Mangle: s%.*?@ANY_VERSION@%@PACKAGE@-$1.tar.gz%
+Compression: gz
+Searchmode: plain
