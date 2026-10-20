@@ -46,11 +46,11 @@ parts:
     stage-packages:
       - adwaita-icon-theme
     override-pull: | 
-      snapcraftctl pull 
+      craftctl default 
       cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
       cp -r ${CRAFT_PART_SRC}/.cargo/config.toml ${CRAFT_PART_BUILD}/.cargo
     override-build: |
-      snapcraftctl build
+      craftctl default
       rm -r ${CRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
       cp -v ${CRAFT_PART_SRC}/data/desktop/io.github.rsvzz.iconvwadw-snap.desktop ${CRAFT_PART_INSTALL}/share/applications/io.github.rsvzz.iconvwadw.desktop
 
