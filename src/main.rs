@@ -8,7 +8,7 @@ use adw::{
     AboutDialog, Application, ApplicationWindow, ColorScheme, EntryRow, PreferencesGroup,
     StyleManager, ViewStack, ViewStackPage, Window, prelude::*,
 };
-use gtk::gdk::{Display, Texture};
+use gtk::gdk::{Display, Texture, gdk_pixbuf::PixbufLoader};
 use gtk::glib::{Bytes, Propagation};
 use gtk::{
     Align, Box, Builder, Button, GestureClick, GridView, Image, Label, ListView, MenuButton,
@@ -152,10 +152,16 @@ fn main() {
                             //glib from cairo old version ubuntu 24.04 ltc
                             let bytes = svg_dg.get_texture_for_png(item_c.path().to_string());
 
-                            if let Ok(texture) = Texture::from_bytes(&Bytes::from_owned(bytes)) {
-                                icon.set_paintable(Some(&texture));
-                            }
 
+                            let loader = PixbufLoader::new();
+                            if loader.write(&bytes).is_ok() && loader.close().is_ok() {
+                                if let Some(pixbuf) = loader.pixbuf() {
+                                    // 2. Crear la textura a partir del Pixbuf
+                                    let texture = Texture::for_pixbuf(&pixbuf);
+                                    icon.set_paintable(Some(&texture));
+                                }
+                            }
+            
                             let lbl_name: Label = view_win.object("lbl_title_icon").unwrap();
                             lbl_name.set_label(&item_c.name());
                             icon_win.set_visible(true);
@@ -168,11 +174,22 @@ fn main() {
                         .flags(gtk::glib::BindingFlags::SYNC_CREATE)
                         .transform_to(|_, value: Bytes| {
                             // Crear textura desde los bytes
-                            if let Ok(texture) = Texture::from_bytes(&value) {
-                                Some(texture)
-                            } else {
+                               let loader = PixbufLoader::new();
+                            if loader.write(&value).is_ok() && loader.close().is_ok() {
+                                if let Some(pixbuf) = loader.pixbuf() {
+                                    // 2. Crear la textura a partir del Pixbuf
+                                    let texture = Texture::for_pixbuf(&pixbuf);
+                                    Some(texture)
+                                
+                                }
+                                else{
+                                    None
+                                }
+                            }
+                            else{
                                 None
                             }
+                        
                         })
                         .build();
                 }
